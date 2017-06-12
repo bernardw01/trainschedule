@@ -1,0 +1,127 @@
+<!-- /* Bernard Williams UCF Bootcamp APR2017 Week 7 Train Schedule*/ This was a hard assignment-->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    <title>Todays Train Schedule</title>
+
+    <link href="assets/css/reset.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <link href="assets/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://bootswatch.com/united/bootstrap.min.css">
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <script type="text/javascript" src="assets/javascript/jquery-3.2.1.js"></script>
+    <script src="assets/javascript/config.js"></script>
+    <script src="assets/javascript/app.js"></script>
+
+</head>
+
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Todays Train Schedule</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href='index.html' class="active">Home</a></li>
+
+        </ul>
+    </div>
+</nav>
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Enter Trains Here</h3>
+
+                </div>
+                <div class="panel-body" id="entryPanel">
+
+                    <div class="form-group">
+                        <label for="trainName">Train Name:</label>
+                        <input type="text" id="trainName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Destination:</label>
+                        <input type="text" id="destination" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="firstTrainDateTime">First Train Time:</label>
+                        <input type="datetime-local" id="firstTrainDateTime" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="schedInterval">Sched Interval: </label><span id="schedIntervalText"> 10</span> mins
+                        <input type="number" class="form-control" id="schedInterval" min="10" max="120" width="75"
+                               value="10">
+                    </div>
+
+                    <button type="button" class="btn btn-default" id="submit">Add Train</button>
+
+                    <div id="buttonsArea">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Current Train Schedule</h3>
+                </div>
+                <div class="panel-body" id="trainSchedule">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Train Name</th>
+                                <th>Destination</th>
+                                <th>Frequency (min)</th>
+                                <th>Next Arrival</th>
+                                <th>Min Away</th>
+                            </tr>
+                            </thead>
+                            <tbody id="schedTable">
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+<script>
+
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyAN7jRJJ0XNwtMkshongw7Cp7gXTEbp164",
+        authDomain: "trainschedule-37df9.firebaseapp.com",
+        databaseURL: "https://trainschedule-37df9.firebaseio.com",
+        projectId: "trainschedule-37df9",
+        storageBucket: "trainschedule-37df9.appspot.com",
+        messagingSenderId: "270247901186"
+    };
+    firebase.initializeApp(config);
+
+</script>
+<script>
+
+</script>
+
+</body>
+
+</html>
