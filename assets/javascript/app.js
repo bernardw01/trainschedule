@@ -8,7 +8,6 @@ var trainSched = [];
 
 $(document).ready(function () {
 
-
     // Initialize Firebase
     var config = {
         apiKey: "AIzaSyAN7jRJJ0XNwtMkshongw7Cp7gXTEbp164",
@@ -22,12 +21,11 @@ $(document).ready(function () {
 
     // Get a reference to the database service
     var database = firebase.database();
-
-
     var trains = firebase.database().ref('trains/');
 
     trains.orderByChild('trainName').on('value', function (snapshot) {
 
+        $('#schedTable').empty();
         //console.log(snapshot.val());
         snapshot.forEach(function (childSnapshot) {
 
@@ -35,12 +33,20 @@ $(document).ready(function () {
             var childData = childSnapshot.val();
             console.log(childKey);
             console.log(childData);
+            var $deleteButton = $('<i>');
+            $deleteButton.addClass("fa fa-trash-o");
+            $deleteButton.attr('aria-hidden', 'true');
+            $deleteButton.attr('id', childKey);
+            $deleteButton.on('click', deleteTrain);
+
             var $newRow = $('<tr>');
             var $newTrainName = $('<td>');
             var $newDestination = $('<td>');
             var $newFrequency = $('<td>');
             var $newNextArrival = $('<td>');
             var $newMinAway = $('<td>');
+            var $delBtnCell = $('<td>');
+
 
             $newTrainName.text(childData.trainName);
             $newDestination.text(childData.destination);
@@ -50,6 +56,10 @@ $(document).ready(function () {
             //TODO Calculate the minutes away
             $newMinAway.text('');
 
+            $delBtnCell.append($deleteButton);
+
+            $newRow.append('<td></td>');
+            $newRow.append($delBtnCell);
             $newRow.append($newTrainName);
             $newRow.append($newDestination);
             $newRow.append($newFrequency);
@@ -57,25 +67,9 @@ $(document).ready(function () {
             $newRow.append($newMinAway);
 
             $('#schedTable').append($newRow);
-
         });
     });
 
-    function refreshSchedule(localTrains) {
-
-        console.log('-------- Refresh Schedule function');
-
-        console.log('Train Schedule Object----------');
-        console.log('This is the object ' + JSON.parse(localTrains));
-        console.log('This is the length of the object ' + localTrains.length);
-        for (var i = 0; i < localTrains.length; i++) {
-            //Build the schedule table
-
-            console.log('Train loop ' + localTrains[i]);
-        }
-
-
-    }
 
     function addTrain() {
         console.log('---------Add Train function')
@@ -94,7 +88,6 @@ $(document).ready(function () {
         //add the train
         firebase.database().ref('trains/' + newTrainID).set(newTrain);
 
-
         console.log(newTrain);
 
 
@@ -102,15 +95,12 @@ $(document).ready(function () {
 
     function deleteTrain() {
         //connect to the db
-
+        console.log('Delete ID ' + $(this).attr('id'));
         //delete the train using the key from the DB
 
-        refreshSchedule();
     }
 
-
     $('#submit').click(addTrain);
-
 
 });
 
