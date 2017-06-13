@@ -78,7 +78,8 @@ $(document).ready(function () {
             trainName: $('#trainName').val().trim(),
             destination: $('#destination').val().trim(),
             firstTrainDateTime: $('#firstTrainDateTime').val(),
-            schedInterval: $('#schedInterval').val().trim()
+            schedInterval: $('#schedInterval').val().trim(),
+            entryDate: Date.now()
         }
 
         //get a unique key
@@ -97,6 +98,8 @@ $(document).ready(function () {
         //connect to the db
         console.log('Delete ID ' + $(this).attr('id'));
         //delete the train using the key from the DB
+        var train = firebase.database().ref('trains/' + $(this).attr('id'));
+        train.remove();
 
     }
 
