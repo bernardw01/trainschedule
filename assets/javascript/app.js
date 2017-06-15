@@ -17,6 +17,7 @@ $(document).ready(function () {
         storageBucket: "trainschedule-37df9.appspot.com",
         messagingSenderId: "270247901186"
     };
+
     firebase.initializeApp(config);
 
     // Get a reference to the database service
