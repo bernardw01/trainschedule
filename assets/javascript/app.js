@@ -21,7 +21,6 @@ $(document).ready(function () {
     firebase.initializeApp(config);
 
     // Get a reference to the database service
-    var database = firebase.database();
     var trains = firebase.database().ref('trains/');
 
     trains.orderByChild('trainName').on('value', function (snapshot) {
@@ -32,8 +31,8 @@ $(document).ready(function () {
 
             var childKey = childSnapshot.key;
             var childData = childSnapshot.val();
-            console.log(childKey);
-            console.log(childData);
+            //console.log(childKey);
+            //console.log(childData);
             var $deleteButton = $('<i>');
             $deleteButton.addClass("fa fa-trash-o");
             $deleteButton.attr('aria-hidden', 'true');
@@ -53,9 +52,14 @@ $(document).ready(function () {
             $newDestination.text(childData.destination);
             $newFrequency.text(childData.schedInterval);
             //TODO Calculate the next arrival time
-            $newNextArrival.text('');
+            var nextArrival = calcNextArrival(childData.firstTrainDateTime, childData.schedInterval);
+            $newNextArrival.text(nextArrival);
             //TODO Calculate the minutes away
-            $newMinAway.text('');
+            var minAway = calcMinAway(nextArrival);
+            //TODO Fix the issue to show the right number of hours before a train arrives.
+            //var hours = moment.duration(minAway, 'minutes').asHours();
+            //var time = moment(hours, 'hours').format("HH:mm");
+            $newMinAway.text(minAway);
 
             $delBtnCell.append($deleteButton);
 
@@ -71,9 +75,42 @@ $(document).ready(function () {
         });
     });
 
+    /**
+     * This function calculates when the next event will occur based on a given start date and an interval
+     * @param firstTrainDateTime This is the first date that
+     * @param intervalMin Minutes between trains
+     */
+    function calcNextArrival(firstTrainDateTime, intervalMin) {
+
+        console.log('---- calNextArrival function')
+        //How long ago
+        console.log(firstTrainDateTime);
+        var startDateTime = moment(firstTrainDateTime, "YYYY-MM-DDThh:mm A")
+        console.log(startDateTime);
+        var minSinceStart = moment(startDateTime).diff(moment(), "minutes");
+        console.log('Moment Date Difference ' + minSinceStart);
+        //How many events since start
+        var numEvents = Math.floor(Math.abs(minSinceStart) / intervalMin);
+        console.log('Number of Events ' + numEvents);
+
+        //How many minutes from first event to the last whole one
+        var minFromFirstEvent = numEvents * intervalMin;
+        console.log('Min from first event ' + minFromFirstEvent);
+        var lastEventDate = startDateTime.add(minFromFirstEvent, 'minutes');
+        console.log('Last Event Date ' + lastEventDate.format('MM/DD/YYYY hh:mm'));
+
+        return lastEventDate.add(intervalMin, 'minutes');
+
+
+    }
+
+    function calcMinAway(nextTrainTime) {
+        var minRemaining = moment(nextTrainTime).diff(moment(), "minutes");
+        return minRemaining;
+    }
 
     function addTrain() {
-        console.log('---------Add Train function')
+        console.log('---------Add Train function');
         //prepare the train object
         var newTrain = {
             trainName: $('#trainName').val().trim(),
@@ -90,7 +127,7 @@ $(document).ready(function () {
         //add the train
         firebase.database().ref('trains/' + newTrainID).set(newTrain);
 
-        console.log(newTrain);
+        //console.log(newTrain);
 
 
     }

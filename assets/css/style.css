@@ -62,7 +62,8 @@ a {
 }
 
 body {
-
+    background-image: url("../images/0921sunrail.JPG");
+    background-size: cover;
 }
 
 div.sideBarHeader {
@@ -167,7 +168,7 @@ th {
 }
 
 .panel-transparent {
-    background: rgba(136, 136, 136, .2);
+    background: rgba(244, 158, 66, .95);
     position: relative;
 }
 

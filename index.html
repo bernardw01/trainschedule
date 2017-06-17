@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset=utf-8>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,6 +21,7 @@
     <script type="text/javascript" src="assets/javascript/jquery-3.2.1.js"></script>
     <script src="assets/javascript/config.js"></script>
     <script src="assets/javascript/app.js"></script>
+    <script src="assets/javascript/moment.js"></script>
 
 </head>
 
@@ -39,44 +41,43 @@
 
     <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-default">
+            <div class="panel panel-default panel-transparent">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Enter Trains Here</h3>
+
+                    <h3 class="panel-title"><i class="fa fa-subway" aria-hidden="true"></i> Enter Trains Here</h3>
 
                 </div>
                 <div class="panel-body" id="entryPanel">
+                    <form id="newTrainForm" action="">
+                        <div class="form-group">
+                            <label for="trainName">Train Name:</label>
+                            <input type="text" id="trainName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="destination">Destination:</label>
+                            <input type="text" id="destination" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstTrainDateTime">First Train Time:</label>
+                            <input type="datetime-local" id="firstTrainDateTime" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="schedInterval">Sched Interval: </label>
+                            <input type="number" class="form-control" id="schedInterval" min="10" max="120" width="75"
+                                   value="10" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="trainName">Train Name:</label>
-                        <input type="text" id="trainName" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="destination">Destination:</label>
-                        <input type="text" id="destination" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="firstTrainDateTime">First Train Time:</label>
-                        <input type="datetime-local" id="firstTrainDateTime" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="schedInterval">Sched Interval: </label><span id="schedIntervalText"> 10</span> mins
-                        <input type="number" class="form-control" id="schedInterval" min="10" max="120" width="75"
-                               value="10">
-                    </div>
+                        <button type="submit" class="btn btn-default" id="submit">Add Train</button>
+                    </form>
 
-                    <button type="button" class="btn btn-default" id="submit">Add Train</button>
-
-                    <div id="buttonsArea">
-
-                    </div>
 
                 </div>
             </div>
         </div>
         <div class="col-md-9">
-            <div class="panel panel-default">
+            <div class="panel panel-default panel-transparent">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Current Train Schedule</h3>
+                    <h3 class="panel-title"><i class="fa fa-clock-o" aria-hidden="true"></i> Current Train Schedule</h3>
                 </div>
                 <div class="panel-body" id="trainSchedule">
                     <div class="table-responsive">
